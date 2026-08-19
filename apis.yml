@@ -1,0 +1,59 @@
+name: Audio, Video, Social & Podcasts for the Written Word
+description: >-
+  Everlit is a B2B SaaS distribution and engagement platform that converts written content (articles, blog posts,
+  newsletters) into audio, social video, and podcasts, then auto-distributes it. Capabilities include AI text-to-audio
+  with voice cloning across 70+ languages, embeddable audio players, podcast syndication (Apple, Spotify, RSS/Podcast
+  2.0), social video generation, programmatic ad monetization, analytics, and CMS integrations (WordPress plugin plus a
+  JavaScript embed).
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/audio-video-social-podcasts-for-the-written-word/refs/heads/main/apis.yml
+created: '2026-08-19'
+modified: '2026-08-19'
+specificationVersion: '0.21'
+tags:
+  - audio
+  - video
+  - social
+  - podcasts
+  - media
+  - publishers
+  - news
+  - text-to-speech
+  - AI-voice
+  - content-distribution
+  - monetization
+  - accessibility
+apis:
+  - name: Everlit
+    description: >-
+      Agent-native document surface for Everlit. A REST API is referenced by the vendor but is not publicly documented,
+      has no published base URL, auth model, or machine-readable contract, and is gated behind sales/onboarding. The
+      only publicly reachable machine-readable artifacts are llms.txt and llms-full.txt.
+    humanURL: https://everlit.audio
+    baseURL: https://everlit.audio
+    tags:
+      - audio
+      - video
+      - social
+      - podcasts
+      - media
+      - publishers
+      - news
+      - text-to-speech
+      - AI-voice
+      - content-distribution
+      - monetization
+      - accessibility
+    properties:
+      - type: LLMsTxt
+        url: https://everlit.audio/llms.txt
+      - type: LLMsTxt
+        url: https://everlit.audio/llms-full.txt
+maintainers:
+  - FN: Audio, Video, Social & Podcasts for the Written Word
+    url: https://everlit.audio
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 80
+  at: '2026-08-19T23:46:51.448Z'

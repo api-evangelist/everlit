@@ -12,6 +12,17 @@ description: >-
   Auburn University. Everlit's only publicly reachable machine-readable surfaces are an oEmbed 1.0
   resolver, a player-bootstrap JSON endpoint, and llms.txt / llms-full.txt; the REST API it markets
   for custom CMS integration is undocumented and access-gated through sales.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://everlit.audio/site/images/preview.jpg
 url: https://raw.githubusercontent.com/api-evangelist/everlit/refs/heads/main/apis.yml
 created: '2026-08-19'

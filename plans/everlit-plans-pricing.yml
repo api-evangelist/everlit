@@ -1,0 +1,30 @@
+generated: '2026-08-20'
+method: searched
+source: >-
+  https://everlit.audio/llms.txt, https://everlit.audio/llms-full.txt and probes of
+  https://everlit.audio/pricing (404) and https://everlit.audio/plans (404) — 2026-08-20.
+plan_count: 0
+currency: null
+public_pricing: false
+self_serve_signup: false
+plans: []
+note: >-
+  Everlit publishes no pricing page and no plan detail of any kind. /pricing and /plans both
+  return HTTP 404, and neither is present in https://everlit.audio/sitemap.xml (96 URLs, all
+  marketing, legal and Dispatches blog pages). The vendor's own copy says only "Everlit offers
+  tiers based on the features an organization needs, from independent creators to large
+  newsrooms and brands. Book a demo via the contact form or hello@everlit.audio." No tier names,
+  no prices, no included quota, no overage terms and no limits are published. The site's
+  schema.org SoftwareApplication block carries an Offer with category "SaaS" and no price.
+  Signup is a mailto: link on the marketing site; https://studio.everlit.audio is login-only
+  (redirects to /session/new). This is an enterprise contact-sales motion — plan_count: 0 is the
+  honest measurement, not a gap in this pass.
+evidence:
+- url: https://everlit.audio/pricing
+  status: 404
+- url: https://everlit.audio/plans
+  status: 404
+- url: https://everlit.audio/llms.txt
+  status: 200
+- url: https://studio.everlit.audio
+  status: 200

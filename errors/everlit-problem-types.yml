@@ -1,0 +1,106 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  Live negative and positive probes of https://everlit.audio/embeds/*, /oembed and the Rails hosts
+  api./studio.everlit.audio — 2026-08-20. Everlit publishes no error reference page and no OpenAPI,
+  so every entry below is a response this pipeline actually received.
+format: custom-json
+rfc9457: false
+envelope:
+  json: '{"status": <int>, "error": "<reason phrase>"}'
+  content_type: application/json; charset=UTF-8
+  fields:
+  - name: status
+    type: integer
+    description: Mirrors the HTTP status code.
+  - name: error
+    type: string
+    description: HTTP reason phrase. No machine-stable error code, no type URI, no detail, no instance.
+  html_fallback:
+    content_type: text/html; charset=UTF-8
+    size_bytes: 1722
+    description: >-
+      Paths that never reach a JSON controller return the stock Rails "The page you were looking
+      for doesn't exist (404)" HTML page. A JSON client must inspect content-type before parsing.
+
+problem_types:
+- code: not_found_json
+  http_status: 404
+  title: Not Found
+  body: '{"status":404,"error":"Not Found"}'
+  content_type: application/json; charset=UTF-8
+  meaning: The requested embed id does not resolve to a published article or playlist.
+  observed_at: https://everlit.audio/embeds/artl_BOGUSID.json
+  remediation: >-
+    Verify the prefixed id (artl_/plist_) against the Studio. Ids are opaque; there is no lookup
+    endpoint, so a bad id is indistinguishable from an unpublished one.
+
+- code: oembed_not_found
+  http_status: 404
+  title: Not Found
+  body: '' # empty body
+  content_type: application/json
+  meaning: >-
+    The `url` supplied to /oembed does not resolve to an Everlit embed or hosted page. Also
+    returned when the `url` parameter is omitted entirely.
+  observed_at: https://everlit.audio/oembed?url=https%3A%2F%2Feverlit.audio%2Fembeds%2Fartl_BOGUSID
+  remediation: >-
+    Supply a full https://everlit.audio/embeds/<id> or https://everlit.audio/hosted/<id> URL.
+    Note the response body is EMPTY on this path — a client that parses unconditionally will throw.
+  deviation: >-
+    A missing required parameter is answered 404 rather than 400, and the oEmbed spec's 404/501
+    semantics are not distinguished.
+
+- code: internal_server_error
+  http_status: 500
+  title: Internal Server Error
+  body: '{"status":500,"error":"Internal Server Error"}'
+  content_type: application/json; charset=UTF-8
+  meaning: >-
+    Server fault. Reproducibly returned by the playlist bootstrap endpoint —
+    https://everlit.audio/embeds/plist_xw8xMZC3vLQ.json returns 500 while the same playlist's HTML
+    embed at /embeds/plist_xw8xMZC3vLQ returns 200. The article equivalent
+    (/embeds/artl_*.json) returns 200, so this is a defect on the playlist JSON path, not a
+    deliberate 404.
+  observed_at: https://everlit.audio/embeds/plist_xw8xMZC3vLQ.json
+  remediation: >-
+    No retry guidance is published and no Retry-After header is returned. Fall back to the HTML
+    embed or the oEmbed response for playlists.
+
+- code: bad_request_playback
+  http_status: 400
+  title: Bad Request
+  content_type: text/html
+  meaning: >-
+    The signed `ste` stream token is missing, malformed or expired on
+    /embeds/{track_id}/playlist.
+  observed_at: https://everlit.audio/embeds/artl_9QemEuv4WkQ/playlist
+  remediation: Re-fetch /embeds/{track_id}.json to obtain a fresh stream_url with a live token.
+
+- code: rails_not_found_html
+  http_status: 404
+  title: The page you were looking for doesn't exist
+  content_type: text/html; charset=UTF-8
+  meaning: Unrouted path on any Everlit host.
+  observed_at: https://api.everlit.audio/openapi.json
+  remediation: n/a
+
+- code: cdn_access_denied
+  http_status: 403
+  title: AccessDenied
+  body: '<Error><Code>AccessDenied</Code><Message>Unauthenticated requests are not allowed for this api</Message></Error>'
+  content_type: application/xml
+  meaning: >-
+    cdn.everlit.audio is a Google Cloud Storage bucket; listing is denied. Individual objects
+    (cover art referenced by the oEmbed thumbnail_url) are readable.
+  observed_at: https://cdn.everlit.audio/
+  remediation: Address objects directly by the URL returned in thumbnail_url / cover_url.
+
+gaps:
+- No stable machine-readable error code — clients must switch on the HTTP status and the English
+  reason phrase.
+- No `type` URI, `detail` or `instance` member; not application/problem+json.
+- Content-type is inconsistent across failure modes (JSON, HTML and XML all appear), so an agent
+  cannot parse errors uniformly.
+- No published error reference page anywhere on everlit.audio.
+- No Retry-After on 5xx.

@@ -1,0 +1,15 @@
+generated: '2026-08-20'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: everlit.audio
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 11 07:26:16 2026 GMT
+  hsts: false
+domains:
+- domain: everlit.audio
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: false

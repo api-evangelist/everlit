@@ -1,0 +1,166 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  Field-by-field observation of the live JSON returned by
+  https://everlit.audio/embeds/artl_9QemEuv4WkQ.json and
+  https://everlit.audio/oembed?url=... — 2026-08-20. No OpenAPI or JSON Schema exists to derive
+  from; every field and every id prefix below was read off a real HTTP 200 response.
+scope: >-
+  This is the PLAYER-FACING projection only. It is not Everlit's full domain model — the
+  authoring, monetization, campaign and analytics objects described in llms-full.txt sit behind
+  the Studio login and the undocumented REST API and were not observable.
+
+id_prefixes:
+- prefix: artl_
+  entity: Article
+  example: artl_9QemEuv4WkQ
+- prefix: plist_
+  entity: Playlist
+  example: plist_xw8xMZC3vLQ
+- prefix: pblc_
+  entity: Publication
+  example: pblc_Vm81nXi9Wez
+
+entities:
+- name: Article
+  id_field: track_id
+  id_prefix: artl_
+  observed_at: https://everlit.audio/embeds/artl_9QemEuv4WkQ.json
+  fields:
+  - name: track_id
+    type: string
+    description: Prefixed public id of the audio article.
+  - name: title
+    type: string
+  - name: album
+    type: string
+    description: Publication display name; rendered as the album in media-session metadata.
+  - name: duration
+    type: integer
+    description: Playback length in milliseconds (observed 67456).
+  - name: cover_url
+    type: string(uri)
+    description: Large cover art served from cdn.everlit.audio.
+  - name: stream_url
+    type: string(uri)
+    description: HLS playlist endpoint carrying a signed ste token.
+  - name: watch_url
+    type: string(uri)
+    description: Video/watch variant of the embed.
+  - name: share_url
+    type: string(uri)
+    description: 'Hosted listen page of the form https://everlit.audio/hosted/{artl_id}'
+  - name: share_title
+    type: string
+  - name: share_event_url
+    type: string(uri)
+    description: Share-event beacon.
+  - name: sharing_enabled
+    type: boolean
+  - name: auth_key
+    type: string
+    description: >-
+      Signed Rails message-verifier token scoped to this playback session. Not a developer
+      credential.
+  - name: email_capture
+    type: object
+
+- name: EmailCapture
+  embedded_in: Article
+  observed_at: https://everlit.audio/embeds/artl_9QemEuv4WkQ.json
+  fields:
+  - name: enabled
+    type: boolean
+  - name: url
+    type: string(uri)
+    description: 'POST target of the form https://everlit.audio/embeds/{artl_id}/capture'
+  - name: label
+    type: string
+    description: 'Button label, observed value "Follow Us".'
+  - name: prompt
+    type: string
+  - name: publication_id
+    type: string
+    description: Prefixed Publication id (pblc_).
+
+- name: Playlist
+  id_prefix: plist_
+  observed_at: https://everlit.audio/embeds/plist_xw8xMZC3vLQ
+  note: >-
+    The playlist JSON bootstrap (/embeds/{plist_id}.json) returns HTTP 500, so Playlist fields
+    could not be observed. Confirmed to exist from the HTML embed (HTTP 200) and from the oEmbed
+    response, which returns type "rich" at 355px height with the description "Playlists are
+    collections of articles".
+  fields: []
+
+- name: Publication
+  id_prefix: pblc_
+  observed_at: https://everlit.audio/embeds/artl_9QemEuv4WkQ.json
+  note: >-
+    Only the id is exposed publicly, via EmailCapture.publication_id. No publication endpoint is
+    publicly reachable.
+  fields:
+  - name: publication_id
+    type: string
+
+- name: OEmbedResponse
+  observed_at: https://everlit.audio/oembed
+  fields:
+  - name: version
+    type: string
+    description: Always "1.0".
+  - name: type
+    type: string
+    description: Always "rich" on both observed resource kinds.
+  - name: provider_name
+    type: string
+  - name: provider_url
+    type: string(uri)
+  - name: title
+    type: string
+  - name: description
+    type: string
+  - name: author_name
+    type: string
+    description: Publication name.
+  - name: thumbnail_url
+    type: string(uri)
+  - name: width
+    type: integer
+  - name: height
+    type: integer
+  - name: html
+    type: string
+    description: Ready-to-paste iframe markup.
+
+relationships:
+- from: Playlist
+  to: Article
+  cardinality: has_many
+  via: membership (not exposed publicly)
+  confidence: medium
+  basis: 'oEmbed description: "Playlists are collections of articles".'
+- from: Publication
+  to: Article
+  cardinality: has_many
+  via: Article.album / EmailCapture.publication_id
+  confidence: medium
+- from: Article
+  to: EmailCapture
+  cardinality: has_one
+  via: email_capture
+  confidence: high
+- from: Article
+  to: Publication
+  cardinality: belongs_to
+  via: email_capture.publication_id
+  confidence: high
+
+observations:
+- field: auth_key
+  note: >-
+    The base64 payload of the signed playback token decodes to a JSON object containing
+    user_tag, session_tag, an integer article_id, a channel string ("embedded_article") and an
+    integer ad_context — exposing Everlit's internal article primary key and ad-context id
+    alongside the public prefixed id. Recorded as an observation, not a vulnerability claim: the
+    token is HMAC-signed and the values are not secrets.

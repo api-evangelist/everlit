@@ -1,0 +1,116 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  Markup and live probes of https://everlit.audio/ (the vendor embeds its own player on its own
+  marketing pages), https://everlit.audio/embeds/*, https://everlit.audio/oembed and the player
+  asset bundle on https://assets.everlit.audio — 2026-08-20.
+summary: >-
+  Everlit's real client-side surface is an iframe-embedded audio player plus an oEmbed resolver.
+  There is no npm element library and no documented loader script; integration is an iframe tag,
+  a WordPress plugin, or a JavaScript embed snippet Everlit provisions per customer.
+
+families:
+- family: Audio player embed
+  kind: iframe
+  status: live
+  url_template: https://everlit.audio/embeds/{artl_id}
+  example: https://everlit.audio/embeds/artl_9QemEuv4WkQ
+  http_status: 200
+  default_size:
+    width: 100%
+    height: 136px
+  iframe_allow: accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share
+  options:
+  - param: ui_title_intro
+    example: 'Listen Now:'
+    description: Text prefix rendered before the article title in the player chrome.
+  - param: ui_title_icon
+    example: headphones
+    description: Icon rendered beside the title.
+  note: >-
+    Observed verbatim in the markup of https://everlit.audio/ — the vendor is its own reference
+    implementation. Only the two ui_* parameters are visible in published examples; Everlit does
+    not publish a parameter reference.
+
+- family: Playlist embed
+  kind: iframe
+  status: live
+  url_template: https://everlit.audio/embeds/{plist_id}
+  example: https://everlit.audio/embeds/plist_xw8xMZC3vLQ
+  http_status: 200
+  default_size:
+    width: 100%
+    height: 355px
+  note: CarPlay- and mobile-oriented playlist player, per llms-full.txt.
+
+- family: Hosted listen page
+  kind: hosted-page
+  status: live
+  url_template: https://everlit.audio/hosted/{artl_id}
+  example: https://everlit.audio/hosted/artl_9QemEuv4WkQ
+  http_status: 200
+  note: >-
+    Standalone share destination returned as `share_url` by the player bootstrap JSON; a
+    no-integration surface for social sharing.
+
+- family: oEmbed resolver
+  kind: json-endpoint
+  status: live
+  url: https://everlit.audio/oembed
+  http_status: 200
+  description: >-
+    Turns an embed or hosted URL into an oEmbed 1.0 "rich" response containing a ready-to-paste
+    iframe, title, description, author_name and a CDN thumbnail. This is the one Everlit surface a
+    third-party CMS can consume with no credential and no onboarding.
+  see: conformance/everlit-conformance.yml
+
+- family: WordPress plugin
+  kind: cms-plugin
+  status: vendor-claimed
+  description: >-
+    Native WordPress plugin that watches publishing activity and posts new articles to Everlit for
+    audio generation; configured with an Everlit API key.
+  source: https://everlit.audio/dispatches/wordpress-plugin-audio-articles-newspack
+  caveat: >-
+    Not present in the WordPress.org plugin directory as of 2026-08-20 — see
+    packages/everlit-packages.yml for the registry probe.
+
+- family: Zero-touch JavaScript embed
+  kind: script-snippet
+  status: vendor-claimed
+  description: >-
+    "A tiny code block you paste in once", after which audio is generated automatically on every
+    publish. Positioned as the integration path for Arc Publishing, Naviga, Brightspot, Contentful
+    and HubSpot.
+  source: https://everlit.audio/llms-full.txt
+  caveat: >-
+    No public snippet, loader URL or data-attribute reference is published; the snippet is
+    provisioned during onboarding. Nothing was found to save.
+
+loader_libraries:
+- name: hls.js
+  role: adaptive audio streaming inside the player
+  url: https://assets.everlit.audio/assets/hls.js-871f0eeb170e0dd02dbc7525127bd79e097e1f72144e18341a6600912443917a.js
+- name: '@dailymotion/vast-client'
+  version: 6.4.1
+  role: IAB VAST ad insertion inside the player
+  url: https://assets.everlit.audio/assets/vast-client-d3340045deada8ab643c7edad65fab62ad207f38757ac472afd1a5f12a064ccd.js
+- name: Stimulus + Turbo (Hotwire)
+  role: player, playlist, marquee, rollup and media-session controllers
+  note: >-
+    Controllers observed: player_controller, playlist_controller, media_session_controller,
+    marquee_controller, rollup_controller.
+
+distribution:
+  registry: none
+  note: >-
+    Everlit ships no npm/CDN component package. The player is served only from
+    assets.everlit.audio behind fingerprinted Rails asset paths, which float with each deploy —
+    a consumer cannot pin a version. Integration is by iframe URL, not by package.
+
+crawler_policy:
+  note: >-
+    https://everlit.audio/robots.txt sets "Disallow: /embeds/" for all user-agents while
+    explicitly allowing GPTBot, ClaudeBot, PerplexityBot, Google-Extended and nine other AI
+    crawlers on the rest of the site. The embeddable player itself is therefore off-limits to
+    crawlers even though the oEmbed resolver that points at it is not.

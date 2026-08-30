@@ -1,0 +1,127 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  Live request/response observation of https://everlit.audio/oembed,
+  https://everlit.audio/embeds/{id}.json and the Rails hosts api./studio./assets2.everlit.audio,
+  plus https://everlit.audio/llms-full.txt — 2026-08-20. No OpenAPI exists to derive from.
+summary: >-
+  Everlit publishes no API conventions document. What follows was observed on the wire against the
+  two publicly reachable JSON endpoints. Anything not observable from outside is recorded as
+  undocumented rather than guessed.
+
+auth_style:
+  model: api-key (undocumented) for the REST API; anonymous for the public oEmbed/embed endpoints
+  see: authentication/everlit-authentication.yml
+
+base_urls:
+- url: https://everlit.audio
+  role: public oEmbed + embed player + hosted share pages
+  verified: probed
+- url: https://api.everlit.audio
+  role: >-
+    Resolves and serves TLS, but HTTP 301s straight to https://studio.everlit.audio/ — it is an
+    alias for the Studio web app, NOT an API base. Every API-shaped path under it 404s.
+  verified: probed
+- url: https://studio.everlit.audio
+  role: browser console (Rails), session-authenticated
+  verified: probed
+
+content_types:
+  request: n/a (no public write surface)
+  response:
+  - application/json; charset=utf-8   # /oembed, /embeds/{id}.json
+  - text/html; charset=utf-8          # /embeds/{id}, /hosted/{id}
+
+identifiers:
+  style: prefixed opaque string ids
+  observed:
+  - prefix: artl_
+    entity: article
+    example: artl_9QemEuv4WkQ
+  - prefix: plist_
+    entity: playlist
+    example: plist_xw8xMZC3vLQ
+  - prefix: pblc_
+    entity: publication
+    example: pblc_Vm81nXi9Wez
+  note: >-
+    Prefix + 11-character body observed across three entity types. Everlit also exposes an internal
+    integer article_id inside the signed playback token, so the prefixed id is a public alias.
+
+pagination:
+  documented: false
+  observed: false
+  note: No collection endpoint is publicly reachable, so no pagination style could be observed.
+
+filtering_and_expansion:
+  documented: false
+  note: >-
+    The only query parameters observed are presentation options on the embed URL
+    (ui_title_intro, ui_title_icon) and the oEmbed `url` parameter. `format` is accepted but ignored.
+
+request_id_tracing:
+  supported: true
+  header: x-request-id
+  also: [x-runtime, x-cloud-trace-context]
+  evidence: Observed on every response from api./studio./assets2.everlit.audio (Rails behind Google Frontend).
+  note: >-
+    The static everlit.audio marketing/embed edge returns x-cloud-trace-context but not
+    x-request-id, so a caller cannot rely on one correlation header across both surfaces.
+
+versioning:
+  scheme: none
+  documented: false
+  note: >-
+    No version segment in any public path, no version header observed, no /v1 namespace
+    (https://everlit.audio/v1 and https://api.everlit.audio/v1 both 404).
+
+error_envelope:
+  format: custom-json
+  shape: '{"status": <int>, "error": "<reason phrase>"}'
+  content_type: application/json; charset=UTF-8
+  rfc9457: false
+  html_fallback: >-
+    Unrouted paths return the stock Rails 404 HTML page (1,722 bytes) with
+    content-type text/html, so an agent must branch on content-type, not on status code alone.
+  see: errors/everlit-problem-types.yml
+
+rate_limit_signaling:
+  headers_observed: []
+  documented: false
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header on any observed response.
+    See rate-limits/everlit-rate-limits.yml.
+
+idempotency:
+  supported: na
+  header: null
+  note: >-
+    No public write surface exists, so there is nothing to make idempotent. The undocumented REST
+    API may accept writes, but Everlit publishes no idempotency-key convention for it.
+
+dry_run_mode:
+  supported: na
+  note: No public write surface and no published sandbox/test mode.
+
+reversibility:
+  applicable: na
+  grade: na
+  note: >-
+    Every publicly reachable Everlit endpoint is a read (oEmbed resolution, player bootstrap,
+    hosted playback page). There is no public create/update/delete operation, so there is nothing
+    for an agent to take back. Everlit's undocumented REST API is described in llms-full.txt only
+    as a way for a custom CMS to send articles for audio generation; no reversal operation
+    (cancel / unpublish / delete audio / retract from podcast feed) and no reversal window are
+    stated anywhere in the vendor's public copy, so none is recorded here.
+  surfaces: []
+  do_not_infer: >-
+    Podcast syndication to Apple/Spotify is inherently hard to reverse once a feed item is pulled
+    by third-party platforms, but Everlit publishes no retraction window, so no window is asserted.
+
+cross_references:
+  errors: errors/everlit-problem-types.yml
+  authentication: authentication/everlit-authentication.yml
+  lifecycle: lifecycle/everlit-lifecycle.yml
+  rate_limits: rate-limits/everlit-rate-limits.yml
+  data_model: data-model/everlit-data-model.yml
+  conformance: conformance/everlit-conformance.yml

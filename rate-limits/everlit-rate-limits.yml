@@ -1,0 +1,26 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  Live response-header inspection of https://everlit.audio/oembed,
+  https://everlit.audio/embeds/{id}.json, https://api.everlit.audio and
+  https://studio.everlit.audio, plus a docs search — 2026-08-20.
+limit_count: 0
+rate_limits: []
+headers_returned: []
+status_on_exhaustion: null
+retry_after: false
+note: >-
+  Everlit documents no rate limits. There is no developer portal or API reference to document
+  them in, and no throttling headers were observed on any live response: no X-RateLimit-*,
+  no RateLimit-* (RFC 9239 draft form) and no Retry-After. The public oEmbed and embed-bootstrap
+  endpoints answered every probe with HTTP 200 and no throttle signal. The Rails hosts return
+  x-request-id / x-runtime / x-cloud-trace-context only. An agent calling Everlit therefore has
+  no runtime backpressure signal at all and would have to infer throttling from failures.
+  limit_count: 0 is a verified absence, not an unchecked field.
+evidence:
+- url: https://everlit.audio/oembed?url=https%3A%2F%2Feverlit.audio%2Fembeds%2Fartl_9QemEuv4WkQ
+  status: 200
+- url: https://everlit.audio/embeds/artl_9QemEuv4WkQ.json
+  status: 200
+- url: https://api.everlit.audio/
+  status: 301

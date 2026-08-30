@@ -31,16 +31,16 @@ specificationVersion: '0.21'
 tags:
 - Audio
 - Video
-- Social
+- social
 - Podcasts
 - Media
-- Publishers
+- publishers
 - News
-- Text-to-Speech
+- text-to-speech
 - AI-voice
-- Content Distribution
-- Monetization
-- Accessibility
+- content-distribution
+- monetization
+- accessibility
 - oEmbed
 - embeddable-player
 - Advertising
@@ -106,9 +106,9 @@ apis:
   humanURL: https://everlit.audio/faq
   baseURL: https://everlit.audio
   tags:
-  - REST
-  - Content Distribution
-  - Text-to-Speech
+  - rest
+  - content-distribution
+  - text-to-speech
   tags_raw:
   - rest
   - content-distribution

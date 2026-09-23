@@ -1,0 +1,56 @@
+# Everlit
+
+> Distribution and engagement platform for the written word, built for newsrooms, publishers, and brands.
+
+Everlit turns written content into gorgeous audio, social video, and podcasts and distributes it everywhere your audience listens—driving 2-3x longer engagement. Used by The Texas Tribune, Hearst Newspapers, San Francisco Chronicle, Advance Local, Shaw Media, Lookout Local, The Narwhal, Auburn University, Ora de Sibiu (Romania), and hundreds of other organizations worldwide.
+
+## What Everlit Does
+
+- Distributes your content across audio, social, and podcast channels from a single publish
+- Syndicates audio automatically to Apple Podcasts, Spotify, and all major podcast platforms
+- Generates social video in 16:9, 1:1, and 9:16 formats for YouTube, TikTok, Instagram, and more
+- Provides an embeddable audio player and smart playlists with CarPlay and mobile support
+- Drives measurable engagement with advanced analytics
+- Monetizes audio with programmatic ads (GAM integration), sponsorships, and direct sales
+- Converts written articles into natural-sounding audio using AI voices
+- Supports 70+ languages, regional accents, and voice cloning to match your brand's identity
+- Works with any CMS: a native WordPress plugin plus a zero-touch JavaScript embed (a tiny code block) for every other platform
+- Players and playlists are fully accessible and meet WCAG 2.2 AA standards
+
+## Who Uses Everlit
+
+- Local and national newsrooms
+- Magazine and book publishers
+- Universities and colleges
+- School districts (K-12)
+- Brands and content marketers
+- Independent creators and bloggers
+
+## Common Questions
+
+Full FAQ: https://everlit.audio/faq
+
+- What is text-to-audio? Converting written articles into natural-sounding spoken audio—Everlit does it automatically on publish, then distributes it.
+- How is Everlit different from basic text-to-speech? It adds an embedded player, podcast syndication, social video, analytics, and ad monetization—a complete audio operation, not a single conversion tool.
+- Can I turn my blog or newsletter into a podcast automatically? Yes—syndicated to Apple Podcasts, Spotify, Pocket Casts, and any RSS app with a proper podcast feed.
+- Can I add a "listen to this article" button to my site? Yes—an embeddable, brand-matched player via a JavaScript snippet or native WordPress plugin.
+- How do publishers monetize audio? Programmatic ads through Google Ad Manager, direct sponsorships, and house ads.
+- Does audio help SEO and accessibility? It increases time-on-page and engagement without duplicate content, and meets WCAG 2.2 AA accessibility standards.
+- How much does it cost? Tiered plans by organization size and features; book a demo at hello@everlit.audio.
+
+## Key Links
+
+- Website: https://everlit.audio
+- FAQ: https://everlit.audio/faq
+- Studio (sign in): https://studio.everlit.audio
+- Contact: hello@everlit.audio
+
+## Dispatches (Blog)
+
+Everlit publishes articles about audio publishing, monetization, CMS integration, AI voices, and content distribution at https://everlit.audio/dispatches
+
+Dispatches articles are available in 7 languages: English, Spanish (/dispatches/es), French (/dispatches/fr), German (/dispatches/de), Italian (/dispatches/it), Portuguese (/dispatches/pt), and Dutch (/dispatches/nl). Each language version uses localized slugs and is written natively for its target market.
+
+## Detailed Information
+
+For comprehensive product details, see: https://everlit.audio/llms-full.txt

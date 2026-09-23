@@ -1,0 +1,186 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  Live probes of https://everlit.audio/oembed and https://everlit.audio/embeds/<id>.json,
+  the player asset bundle on assets.everlit.audio, schema.org JSON-LD in the site HTML,
+  https://everlit.audio/legal/dpa and https://everlit.audio/llms-full.txt — 2026-08-20.
+summary: >-
+  Everlit publishes no OpenAPI, AsyncAPI, GraphQL or Postman contract. It does, however, serve a
+  real, unauthenticated, machine-readable oEmbed 1.0 endpoint and a JSON player-bootstrap endpoint,
+  and its player bundles an IAB VAST client. The conformance below is split between standards
+  VERIFIED by probe and standards the vendor CLAIMS in its own copy but that could not be verified
+  from outside (per-customer podcast feeds and WCAG audits are not publicly reachable).
+
+standards:
+- id: oembed-1.0
+  name: oEmbed 1.0
+  conforms: true
+  domain_standard: true
+  evidence:
+    url: https://everlit.audio/oembed?url=https%3A%2F%2Feverlit.audio%2Fembeds%2Fartl_9QemEuv4WkQ
+    http_status: 200
+    content_type: application/json; charset=utf-8
+    observed_fields: [version, type, provider_name, provider_url, title, description, author_name, thumbnail_url, width, height, html]
+    note: >-
+      Returns a valid oEmbed "rich" response with version "1.0". An unknown id returns 404 with an
+      empty body, so the endpoint is a real resolver rather than a catch-all.
+  deviations:
+  - No oEmbed discovery link. Neither https://everlit.audio/embeds/<id> nor
+    https://everlit.audio/hosted/<id> carries a <link rel="alternate" type="application/json+oembed">
+    tag, so consumers cannot auto-discover the endpoint; it must be hard-coded.
+  - The `format` parameter is ignored. `?format=xml` returns the same
+    application/json body (probed 2026-08-20, HTTP 200), where the oEmbed spec requires
+    either an XML response or HTTP 501.
+  - Everlit is not registered in the public oembed.com providers.json registry.
+
+- id: iab-vast
+  name: IAB VAST (Digital Video/Audio Ad Serving Template)
+  conforms: true
+  domain_standard: true
+  evidence:
+    url: https://assets.everlit.audio/assets/vast-client-d3340045deada8ab643c7edad65fab62ad207f38757ac472afd1a5f12a064ccd.js
+    http_status: 200
+    note: >-
+      The Everlit audio player bundles "@dailymotion/vast-client@6.4.1" (stated verbatim in the
+      first line of the served asset), and the bundle carries the VAST macro table
+      (ADCATEGORIES, ADCOUNT, ADPLAYHEAD, ADSERV...). This is the ad-serving standard for
+      Everlit's programmatic monetization path, which llms-full.txt describes as Google Ad
+      Manager preroll/midroll/postroll insertion.
+
+- id: schema-org-jsonld
+  name: schema.org JSON-LD
+  conforms: true
+  evidence:
+    url: https://everlit.audio/features
+    http_status: 200
+    types: [WebSite, Organization, SoftwareApplication]
+    note: Three parseable JSON-LD blocks are server-rendered into every marketing page.
+
+- id: hls
+  name: HTTP Live Streaming (RFC 8216)
+  conforms: true
+  evidence:
+    url: https://everlit.audio/embeds/artl_9QemEuv4WkQ/playlist
+    http_status: 400
+    note: >-
+      The player loads hls.js and points at a /playlist endpoint that requires a signed `ste`
+      token; a request without a live token returns HTTP 400, so the media format is inferred
+      from the bundled hls.js loader plus the endpoint name, not from a fetched manifest.
+
+- id: w3c-media-session
+  name: W3C Media Session API
+  conforms: true
+  evidence:
+    url: https://everlit.audio/embeds/artl_9QemEuv4WkQ
+    http_status: 200
+    note: The embed ships assets/controllers/media_session_controller.js, wiring OS/lock-screen media controls.
+
+- id: rss-2.0
+  name: RSS 2.0
+  conforms: unverified
+  evidence:
+    url: https://everlit.audio/llms-full.txt
+    http_status: 200
+    claim: '"RSS 2.0 and Podcast 2.0 compliant feeds"'
+    note: >-
+      Claimed by the vendor. Podcast feeds are per-publication and no public feed URL is
+      advertised; /feeds/<pblc_id>, /feed/<pblc_id> and /podcasts/<pblc_id> all returned 404,
+      so the claim could not be verified from outside.
+
+- id: podcast-2.0
+  name: Podcast 2.0 namespace
+  conforms: unverified
+  domain_standard: true
+  evidence:
+    url: https://everlit.audio/llms-full.txt
+    http_status: 200
+    claim: '"Full Podcast 2.0 support"'
+    note: Same as RSS 2.0 — no publicly reachable feed to parse.
+
+- id: id3
+  name: ID3 audio metadata tags
+  conforms: unverified
+  evidence:
+    url: https://everlit.audio/llms-full.txt
+    http_status: 200
+    claim: '"ID3 tag support for proper metadata"'
+
+- id: wcag-2.2-aa
+  name: WCAG 2.2 Level AA
+  conforms: unverified
+  evidence:
+    url: https://everlit.audio/llms.txt
+    http_status: 200
+    claim: '"Players and playlists are fully accessible and meet WCAG 2.2 AA standards"'
+    note: >-
+      Vendor self-assertion. No VPAT, ACR or third-party audit report is published at
+      /accessibility (404 on 2026-08-20).
+
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence:
+    url: https://everlit.audio/embeds/artl_BOGUSID.json
+    http_status: 404
+    body: '{"status":404,"error":"Not Found"}'
+    note: >-
+      Errors use a bespoke {status,error} JSON envelope with content-type
+      application/json, not application/problem+json.
+
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence:
+    url: https://everlit.audio/.well-known/oauth-authorization-server
+    http_status: 404
+    note: No OAuth authorization server metadata on any Everlit host; the documented auth model is a static API key.
+
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence:
+    url: https://studio.everlit.audio/.well-known/openid-configuration
+    http_status: 404
+
+compliance:
+- id: gdpr
+  name: EU GDPR (Regulation 2016/679)
+  published: true
+  evidence:
+    url: https://everlit.audio/legal/dpa
+    http_status: 200
+    note: >-
+      Everlit publishes a Data Processing Agreement naming GDPR, with a 72-hour personal-data-breach
+      notification commitment and delete-or-return of personal data on termination.
+- id: ccpa
+  name: California Consumer Privacy Act
+  published: true
+  evidence:
+    url: https://everlit.audio/legal/dpa
+    http_status: 200
+- id: subprocessor-list
+  name: Sub-processor disclosure
+  published: partial
+  evidence:
+    url: https://everlit.audio/legal/dpa
+    http_status: 200
+    note: >-
+      llms.txt advertises "a published subprocessor list", but the DPA states the list is
+      "available upon request by contacting privacy@everlit.audio". No public list page was found.
+- id: soc2
+  name: SOC 2
+  published: false
+  evidence:
+    url: https://everlit.audio/legal
+    http_status: 200
+    note: No SOC 2, ISO 27001, HIPAA or FedRAMP certification is named anywhere on the public site.
+
+not_applicable:
+- id: fhir
+  reason: Not a healthcare provider.
+- id: psd2
+  reason: Not a financial services provider.
+- id: scim
+  reason: No published identity-provisioning surface.
+- id: odata
+  reason: No published query API.

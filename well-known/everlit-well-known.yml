@@ -1,0 +1,93 @@
+generated: '2026-08-20'
+method: probed
+source: live GET probes of /.well-known/* on every Everlit host, 2026-08-20
+note: >-
+  Every /.well-known/ path probed returned HTTP 404 with a real Rails/static 404 body
+  (1,722 bytes, "The page you were looking for doesn't exist"), not a soft-200 SPA shell —
+  the negative result is trustworthy. Because nothing was served, NO WellKnown or SecurityTxt
+  pointer is emitted in apis.yml; this file records a verified absence, not a presence.
+hosts:
+- host: everlit.audio
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /.well-known/mcp.json
+    status: 404
+    file: null
+- host: api.everlit.audio
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: studio.everlit.audio
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+- host: assets.everlit.audio
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+- host: assets2.everlit.audio
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+- host: cdn.everlit.audio
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null

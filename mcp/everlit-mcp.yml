@@ -1,0 +1,84 @@
+generated: '2026-08-20'
+method: probed
+source: >-
+  MCP discovery probes against everlit.audio, api.everlit.audio, studio.everlit.audio,
+  assets.everlit.audio, assets2.everlit.audio and cdn.everlit.audio, plus a web search for a
+  published Everlit MCP server — 2026-08-20.
+status: candidate
+server_published: false
+
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+
+probes:
+- url: https://everlit.audio/.well-known/mcp.json
+  status: 404
+- url: https://everlit.audio/mcp
+  status: 404
+- url: https://api.everlit.audio/mcp
+  status: 404
+- url: https://studio.everlit.audio/mcp
+  status: 404
+- url: https://everlit.audio/.well-known/oauth-protected-resource
+  status: 404
+- url: https://api.everlit.audio/.well-known/oauth-protected-resource
+  status: 404
+registry_search: >-
+  No Everlit entry found in public MCP server listings or on npm/PyPI (registry.npmjs.org search
+  for "everlit" returns 0 results). No install command is published anywhere on everlit.audio.
+
+note: >-
+  Everlit ships no MCP server — neither a remote endpoint an agent could POST to nor a local
+  stdio package a human could install. mode: none is therefore correct, and NO type: MCPServer
+  pointer is emitted in apis.yml, because emitting one would assert an agent surface that does
+  not exist. Everlit's agent-facing posture today is documentary only: an llms.txt, an
+  llms-full.txt, and a robots.txt that explicitly allows fourteen named AI crawlers.
+
+candidate_tools:
+  basis: >-
+    Derived from the two publicly reachable, unauthenticated JSON endpoints this pipeline probed
+    directly — NOT from an OpenAPI (none exists) and NOT from vendor prose. These are the only
+    Everlit operations an MCP server could wrap today without credentials.
+  tools:
+  - name: resolve_everlit_embed
+    description: >-
+      Resolve an Everlit embed or hosted URL to its oEmbed 1.0 record — title, description,
+      publication, cover thumbnail and ready-to-paste iframe markup.
+    rest: GET https://everlit.audio/oembed?url={embed_or_hosted_url}
+    input_schema:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: 'A https://everlit.audio/embeds/{id} or https://everlit.audio/hosted/{id} URL.'
+      required: [url]
+    auth: none
+    verified: probed
+    confidence: high
+  - name: get_everlit_article_audio
+    description: >-
+      Fetch the player bootstrap record for an Everlit audio article — title, publication,
+      duration in milliseconds, cover art, share URL and a signed stream URL.
+    rest: GET https://everlit.audio/embeds/{track_id}.json
+    input_schema:
+      type: object
+      properties:
+        track_id:
+          type: string
+          pattern: '^artl_'
+          description: Prefixed Everlit article id.
+      required: [track_id]
+    auth: none
+    verified: probed
+    confidence: high
+  not_derivable:
+  - Everything Everlit's own copy describes as its product — audio generation, voice cloning,
+    podcast syndication, social video, ad campaigns, analytics — sits behind the Studio login and
+    an undocumented, sales-gated REST API. No tool can be derived for any of it without
+    fabricating an operation, so none is listed.

@@ -1,0 +1,86 @@
+generated: '2026-08-20'
+method: searched
+source: >-
+  Registry metadata queries against registry.npmjs.org, pypi.org, rubygems.org and
+  api.wordpress.org/plugins/info/1.2/, plus GitHub org lookups — all 2026-08-20.
+summary: >-
+  Everlit publishes no first-party client library in any public package registry. The only
+  first-party distributable it claims is a WordPress plugin, and that claim did not survive a
+  registry probe. `official: true` is set on nothing here, because nothing first-party was found.
+package_count: 0
+
+packages: []
+
+claimed_but_unverified:
+- name: Everlit WordPress plugin
+  language: php
+  registry: wordpress.org
+  official: unknown
+  version: null
+  published: null
+  claim: >-
+    "The Everlit WordPress plugin is available directly from the WordPress plugin directory."
+  claim_source: https://everlit.audio/dispatches/wordpress-plugin-audio-articles-newspack
+  probe:
+  - endpoint: 'https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[search]=everlit'
+    http_status: 200
+    result: '{"info":{"page":1,"pages":0,"results":0},"plugins":[]}'
+  - endpoint: 'https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=everlit'
+    http_status: 404
+    result: '{"error":"Plugin not found."}'
+  - endpoint: 'https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=everlit-audio'
+    http_status: 404
+    result: '{"error":"Plugin not found."}'
+  - endpoint: https://downloads.wordpress.org/plugin/everlit.zip
+    http_status: 404
+  - endpoint: 'https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[author]=everlit'
+    http_status: 200
+    result: 0 results
+  note: >-
+    version: null because no registry record exists to read a version from. This is a checked
+    gap, not an unchecked one. A publisher following Everlit's own dispatch will not find the
+    plugin on WordPress.org; it is presumably distributed as a zip during onboarding. No
+    download link was found on everlit.audio either (/wordpress, /plugin, /downloads and
+    /everlit-wordpress.zip all 404).
+
+registries_checked:
+- registry: npm
+  query: https://registry.npmjs.org/-/v1/search?text=everlit
+  http_status: 200
+  matches: 0
+- registry: pypi
+  query: https://pypi.org/pypi/everlit/json
+  http_status: 404
+  matches: 0
+- registry: rubygems
+  query: https://rubygems.org/api/v1/search.json?query=everlit
+  http_status: 200
+  matches: 0
+- registry: wordpress.org
+  query: 'https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[search]=everlit'
+  http_status: 200
+  matches: 0
+- registry: github
+  query: https://api.github.com/orgs/everlit-audio/repos
+  http_status: 200
+  matches: 0
+  note: >-
+    The GitHub organization https://github.com/everlit-audio is genuinely Everlit's (blog
+    https://everlit.audio, email hello@everlit.audio, created 2023-03-13) but has 0 public
+    repositories, so no source-distributed client exists there either.
+
+not_everlit:
+- name: adauris-floating-iframe-injector
+  registry: npm
+  version: 2.2.1
+  published: '2025-04-24'
+  why_excluded: >-
+    Published by the Ad-Auris GitHub org / maintainer griffincook-adauris, not Everlit.
+    Everlit's own dispatch states Ad Auris was acquired by LANDBASE in August 2025 — Everlit
+    positions itself as the migration destination for displaced Ad Auris publishers, it did not
+    acquire Ad Auris. The Ad Auris WordPress plugin (slug ad-auris) was closed by WordPress.org
+    on 2025-12-03 for a guideline violation. None of these artifacts belong to Everlit and none
+    are recorded against it.
+  evidence:
+    url: https://everlit.audio/dispatches/ad-auris-acquired-everlit-welcomes-publishers
+    http_status: 200

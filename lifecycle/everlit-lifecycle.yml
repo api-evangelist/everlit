@@ -1,0 +1,78 @@
+generated: '2026-08-20'
+method: searched
+source: >-
+  Site + sitemap search of everlit.audio and probes of /changelog, /status, /security,
+  status.everlit.audio and trust.everlit.audio — 2026-08-20.
+summary: >-
+  Everlit publishes none of the operational lifecycle surfaces. Recorded as verified absences so
+  a reader can see which walls were hit; no StatusPage or Deprecation pointer is emitted in
+  apis.yml because neither surface exists.
+
+versioning:
+  scheme: none
+  policy_url: null
+  note: No version segment, header or namespace on any public path.
+
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No deprecation policy published and no OpenAPI to derive deprecated operations from.
+
+status_page:
+  url: null
+  published: false
+  evidence:
+  - url: https://everlit.audio/status
+    status: 404
+  - url: https://status.everlit.audio/
+    status: 000
+    note: >-
+      Resolves to Everlit's wildcard IP 35.241.38.184 but the TLS certificate presented is
+      CN=www.everlit.audio, so the handshake fails — the hostname is not actually served.
+  - url: https://trust.everlit.audio/
+    status: 000
+    note: Same wildcard/cert-mismatch condition as status.
+
+sla:
+  published: false
+  uptime_commitment: null
+  note: >-
+    No SLA or uptime commitment found. The Terms of Service page at /legal/tos is client-rendered
+    and served only a 493-character shell to a plain HTTP client, so any SLA language inside it is
+    not machine-readable.
+
+changelog:
+  url: null
+  published: false
+  evidence:
+  - url: https://everlit.audio/changelog
+    status: 404
+  note: >-
+    https://everlit.audio/dispatches is a marketing blog (11 articles in 7 languages), not a dated
+    product changelog — no version numbers, no release entries, no breaking-change notices.
+
+support:
+  faq: https://everlit.audio/faq
+  email: hello@everlit.audio
+  privacy_contact: privacy@everlit.audio
+  security_contact: null
+  note: No security@ address, no /.well-known/security.txt and no vulnerability disclosure page.
+
+incident_history: []
+
+company_events:
+- date: '2025-08'
+  event: >-
+    Ad Auris, a competing text-to-speech platform for publishers, was acquired by Landbase.
+    Everlit published a migration path for displaced Ad Auris publishers. Everlit was NOT the
+    acquirer — recorded here because the acquisition is frequently misattributed.
+  source: https://everlit.audio/dispatches/ad-auris-acquired-everlit-welcomes-publishers
+- date: '2025-12-03'
+  event: >-
+    The Ad Auris WordPress plugin (slug ad-auris) was closed by WordPress.org for a guideline
+    violation. Context for the migration above; not an Everlit asset.
+  source: 'https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=ad-auris'

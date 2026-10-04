@@ -84,7 +84,6 @@ apis:
     a real 404, so the surface is a genuine resolver rather than a catch-all. Everlit publishes no OpenAPI,
     no reference page and no rate limits for it, so this entry is documented from probed responses only.
   humanURL: https://everlit.audio
-  baseURL: https://everlit.audio
   tags:
   - oEmbed
   - embeddable-player
@@ -114,7 +113,6 @@ apis:
     and no machine-readable contract. Access runs through sales at hello@everlit.audio. Recorded here
     because the surface is real and vendor-asserted, not because it is consumable.'
   humanURL: https://everlit.audio/faq
-  baseURL: https://everlit.audio
   tags:
   - REST
   - Content Distribution

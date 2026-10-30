@@ -1,4 +1,4 @@
-# everlit
+# Everlit
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,109 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Everlit is a B2B SaaS distribution and engagement platform that converts written content (articles, blog posts, newsletters) into audio, social video, and podcasts, then auto-distributes it. Capabilities include AI text-to-audio with voice cloning across 70+ languages, embeddable audio players, podc
+Everlit is a B2B SaaS distribution and engagement platform that converts written content (articles, blog posts, newsletters) into audio, social video, and podcasts, then auto-distributes it. Capabilities include AI text-to-audio with voice cloning across 70+ languages, an embeddable audio player and smart playlists, podcast syndication to Apple Podcasts, Spotify and any RSS 2.0 / Podcast 2.0 app, social video generation in 16:9, 1:1 and 9:16, programmatic audio monetization through Google Ad Manager plus direct sponsorships and house ads, engagement analytics, and CMS integration through a native WordPress plugin or a zero-touch JavaScript embed. Customers include The Texas Tribune, Hearst Newspapers, the San Francisco Chronicle, Advance Local, Shaw Media and Auburn University. Everlit's only publicly reachable machine-readable surfaces are an oEmbed 1.0 resolver, a player-bootstrap JSON endpoint, and llms.txt / llms-full.txt; the REST API it markets for custom CMS integration is undocumented and access-gated through sales.
+
+**Areas:** Audio · Video · Social · Podcasts · Media · Publishers · News · Text-to-Speech · AI-voice · Content Distribution · Monetization · Accessibility
+
+## Everlit on APIs.io
+
+Everything profiled for Everlit is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/everlit/](https://apis.io/providers/everlit/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [Everlit oEmbed and Embed Player](https://apis.io/apis/everlit/everlit-oembed-and-embed-player/) — The one Everlit surface an agent or a third-party CMS can call today with no credential and no onboarding. GET /oembed resolves an Everlit embed or hosted…
+- [Everlit REST API](https://apis.io/apis/everlit/everlit-rest-api/) — Everlit markets a REST API for connecting a custom CMS or platform that has no native integration — "our REST API makes it possible to connect Everlit to…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [everlit-mcp.yml](https://apis.io/servers/everlit/everlit-mcp-yml/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Everlit Authentication](https://apis.io/security/everlit/everlit-authentication/)
+- [Everlit Domain Security](https://apis.io/security/everlit/everlit-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Everlit Plans Pricing](https://apis.io/plans/everlit/everlit-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Everlit Rate Limits](https://apis.io/rate-limits/everlit/everlit-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://everlit.audio)
+- [Support](https://everlit.audio/faq)
+- [Blog](https://everlit.audio/dispatches)
+- [Compliance](https://everlit.audio/legal/dpa)
+- [Terms of service](https://everlit.audio/legal/tos)
+- [Privacy policy](https://everlit.audio/legal/privacy)
+- [GitHub](https://github.com/everlit-audio)
+
+## API Evangelist rating
+
+**Kin Score 21.6** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 35.5 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 29.4** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/everlit/](https://apis.io/providers/everlit/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Everlit: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/everlit/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
